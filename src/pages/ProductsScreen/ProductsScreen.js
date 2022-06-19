@@ -4,56 +4,38 @@ import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { GlobalStateContext } from "../../Global/GlobalStateContext";
 import { Main } from "./styled";
+import Form from "../../components/Form/Form";
 
 const ProductsScreen = () => {
   const navigate = useNavigate();
-  const {states, setters, requests} = useContext(GlobalStateContext);
-  const {cart, productList} = states;
-  const {setCart, setProductList} = setters
-  const {getProducts}= requests;
- 
+  const { states, requests } = useContext(GlobalStateContext);
+  const { productList } = states;
+  const { getProducts } = requests;
 
-  useEffect(()=>{
-    getProducts()
-  },[])
-
-  const addItem =(newItem) =>{
-    const index = cart.findIndex((i)=>i.id === newItem.id)
-    const newCart = [...cart]
-    if (index === -1){
-      const cartItem = {...newItem, amount:1}
-      newCart.push(cartItem)
-    }else{
-      newCart[index].amount = newCart[index].amount + 1
-    }
-    setCart(newCart)
-  }
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const renderProducts =
     productList &&
     productList.map((produto) => {
-      return (
-        <ProductCard
-          key={produto.id}
-          produto={produto}
-           addItem={addItem}
-        />
-      )
-    })
+      return <ProductCard key={produto.id} produto={produto} />;
+    });
+
   return (
     <div>
-        <form>
-          <input placeholder="nome"></input>
-          <input type='date'placeholder="data de entrega"></input>
+      <Form></Form>
+      <Main>{renderProducts}</Main>
 
-        </form>
-        <Main>{renderProducts}</Main>
-        <Button  type={"submit"}
-
-                    variant={"contained"}
-                    color={"secondary"} onClick={() => navigate(`/carrinho`)}>
-          Visualizar pedido
-        </Button>
+      <Button
+        disableElevation={true}
+        type={"submit"}
+        variant={"contained"}
+        color={"success"}
+        onClick={() => navigate(`/pedido`)}
+      >
+        Visualizar pedido
+      </Button>
     </div>
   );
 };
