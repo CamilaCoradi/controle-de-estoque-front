@@ -26,9 +26,9 @@ const ProductCard = (props) => {
 
     pedidoToPost.items = pedido.items;
 
-    if (pedido.items.find((prd) => prd.id === produto.id) != undefined) {
+    if (pedido.items.find((prd) => prd.id === produto._id) != undefined) {
       pedido.items.forEach((element) => {
-        if (element.id === produto.id) {
+        if (element.id === produto._id) {
           element.qtd = qtdProduto;
           element.total = qtdProduto * produto.price;
         }
@@ -40,13 +40,12 @@ const ProductCard = (props) => {
 
     pedidoToPost.total = CalcTotal(pedidoToPost);
 
-    console.log(pedidoToPost);
     setPedido(pedidoToPost);
   }
 
   function CreateNewItemPedidos(produto, qtdProduto) {
     let newPedido = {
-      id: produto.id,
+      id: produto._id,
       name: produto.name,
       price: produto.price,
       qtd: qtdProduto,

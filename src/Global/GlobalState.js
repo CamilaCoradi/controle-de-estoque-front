@@ -12,6 +12,9 @@ const GlobalState = (props) => {
   const [nameForm, setName] = useState([]);
   const [deliveryDateForm, setDeliveryDate] = useState([]);
 
+
+
+
   const getProducts = () => {
     axios
       .get(`${BASE_URL}/produtos`)
